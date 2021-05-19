@@ -36,7 +36,9 @@ Push Release:
   stage: Push
   script:
     - echo $CI_COMMIT_TAG
+    - echo $CI_COMMIT_TAG | sed 's/-release//'
     - export TAGGED_ECR_REPO=$ECR_REPO:$(echo $CI_COMMIT_TAG | sed 's/-release//')
+    - echo $TAGGED_ECR_REPO
     - docker tag proxy:latest $TAGGED_ECR_REPO
     - docker push $TAGGED_ECR_REPO
     - docker tag $TAGGED_ECR_REPO $ECR_REPO:latest
